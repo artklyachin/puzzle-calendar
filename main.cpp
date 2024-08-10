@@ -9,17 +9,23 @@ using ShapeType = std::vector<std::vector<int>>;
 class CalendarPuzzel {
 public:
     CalendarPuzzel();
+    void print_one_solution(int date, int month);
+
+
+private:
 
     class Game {
     public:
         Game(int date, int month, const CalendarPuzzel* curr_calendar);
-        void add_date_to_calendar(int date, int month);
-        bool insert_shapes_starting_from_ith(int i);
         bool find_solition();
-        bool check_shape_compatibility(int upper_limit, int left_border, const ShapeType& shape);
-        bool display_by_template(int upper_limit, int left_border, const ShapeType& shape, int value);
         bool has_solution_found();
         void print_solition();
+
+    private:
+        void add_date_to_calendar(int date, int month);
+        bool insert_shapes_starting_from_ith(int i);
+        bool check_shape_compatibility(int upper_limit, int left_border, const ShapeType& shape);
+        bool display_by_template(int upper_limit, int left_border, const ShapeType& shape, int value);
 
         ShapeType game_table;
         bool solution_has_found;
@@ -29,9 +35,9 @@ public:
 
     std::vector<std::vector<int>> convertToShapeType(std::vector<std::string> &shape);
     static ShapeType rotate(ShapeType &shape, int count_rot90, int flipped);
+    friend void test_rotate();
     void create_all_shapes();
     void create_table();
-    void print_one_solution(int date, int month);
 
     std::map<char, std::vector<ShapeType>> shapes;
     std::vector<char> shapes_names;
@@ -265,6 +271,11 @@ bool CalendarPuzzel::Game::has_solution_found() {
 }
 
 void CalendarPuzzel::Game::print_solition() {
+    if (!solution_has_found) {
+        std::cout << "solution has not found." << std::endl;
+        return;
+    }
+
     size_t table_n = game_table.size(), table_m = game_table[0].size();
     std::vector<std::vector<char>> ans_table(table_n, std::vector<char>(table_m, '.'));
 
