@@ -26,17 +26,13 @@ void Shape::rotate(int count_rot90, bool flipped)
     {
         std::swap(new_n, new_m);
     }
-    if (flipped)
-    {
-        std::swap(new_n, new_m);
-    }
     FormType rotated_form = std::vector(new_n, std::vector<int>(new_m, 0));
 
-    for (int line = 0; line < n; ++line)
+    for (int row = 0; row < n; ++row)
     {
         for (int column = 0; column < m; ++column)
         {
-            int i = line, j = column;
+            int i = row, j = column;
             if (count_rot90 == 1)
             {
                 std::tie(i, j) = std::make_pair(j, n - 1 - i);
@@ -51,8 +47,8 @@ void Shape::rotate(int count_rot90, bool flipped)
             }
 
             if (flipped)
-                j = m - 1 - j;
-            rotated_form[i][j] = cellular_form[line][column];
+                j = new_m - 1 - j;
+            rotated_form[i][j] = cellular_form[row][column];
         }
     }
     std::swap(cellular_form, rotated_form);

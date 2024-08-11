@@ -48,7 +48,7 @@ void GameTable::create_all_shapes(const std::map<char, FormStrRepresent> &str_re
             rot_shape.rotate(i, false);
             shapes[name].push_back(rot_shape);
 
-            if (flipped_coincid)
+            if (!flipped_coincid)
             {
                 Shape rot_flip_shape(shape);
                 rot_flip_shape.rotate(i, true);
@@ -84,6 +84,10 @@ bool GameTable::insert_shapes_starting_from_index(int index)
 
                     shapes_answer_coordinate.emplace_back(std::make_pair(row, column), name, shape_num); // insert shape
                     table.fill(row, column, shape);
+
+                    // solution_has_found = true;
+                    // print_solition();
+                    // std::cout << std::endl;
 
                     if (insert_shapes_starting_from_index(index + 1))
                     {
