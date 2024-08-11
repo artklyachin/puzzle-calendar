@@ -14,7 +14,6 @@ private:
     friend void test_rotate();
 };
 
-
 class Table : public CellularForm
 {
 public:
@@ -22,7 +21,7 @@ public:
 
     bool set_cell(int row, int colomn, CellularForm::CellState state);
 
-    bool check_nesting(int row, int colomn, const Shape& shape) const;
-    bool fill(int row, int colomn, const Shape& shape);
-    bool release(int row, int colomn, const Shape& shape);
+    bool check_nesting(int row, int colomn, const Shape &shape) const;
+    bool fill(int row, int colomn, const Shape &shape);
+    bool release(int row, int colomn, const Shape &shape);
 };

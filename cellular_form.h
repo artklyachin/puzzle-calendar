@@ -12,9 +12,10 @@ public:
 
     virtual ~CellularForm() = default;
 
-    bool operator==(const CellularForm& other) const;
+    bool operator==(const CellularForm &other) const;
 
-    enum class CellState {
+    enum class CellState
+    {
         Included,
         NotIncluded
     };

@@ -4,55 +4,55 @@
 #include <string>
 #include "game_table.h"
 
-class CalendarPuzzel {
+class CalendarPuzzel
+{
 public:
     void print_one_solution(int date, int month);
 
 private:
     FormStrRepresent str_repr_table = {
-            "......x",
-            "......x",
-            ".......",
-            ".......",
-            ".......",
-            ".......",
-            "...xxxx",
+        "......x",
+        "......x",
+        ".......",
+        ".......",
+        ".......",
+        ".......",
+        "...xxxx",
     };
 
     std::map<char, FormStrRepresent> str_repr_shapes = {
         {'V', {
-                        "x..",
-                        "x..",
-                        "xxx",
-                }},
+                  "x..",
+                  "x..",
+                  "xxx",
+              }},
         {'P', {
-                        "xxx",
-                        "xx.",
-                }},
+                  "xxx",
+                  "xx.",
+              }},
         {'Z', {
-                        "xx.",
-                        ".x.",
-                        ".xx",
-                }},
+                  "xx.",
+                  ".x.",
+                  ".xx",
+              }},
         {'L', {
-                        "xxxx",
-                        "x...",
-                }},
+                  "xxxx",
+                  "x...",
+              }},
         {'N', {
-                        "xx..",
-                        ".xxx",
-                }},
+                  "xx..",
+                  ".xxx",
+              }},
         {'O', {
-                        "xxx",
-                        "xxx",
-                }},
+                  "xxx",
+                  "xxx",
+              }},
         {'Y', {
-                        "xxxx",
-                        ".x..",
-                }},
+                  "xxxx",
+                  ".x..",
+              }},
         {'U', {
-                        "xxx",
-                        "x.x",
-                }}
-    };
+                  "xxx",
+                  "x.x",
+              }}};
 };

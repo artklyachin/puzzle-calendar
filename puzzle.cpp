@@ -1,8 +1,10 @@
 #include "puzzle.h"
 #include <iostream>
 
-void CalendarPuzzel::print_one_solution(int date, int month) {
-    if (!(date >= 1 && date <= 31 && month >= 1 && month <= 12)) {
+void CalendarPuzzel::print_one_solution(int date, int month)
+{
+    if (!(date >= 1 && date <= 31 && month >= 1 && month <= 12))
+    {
         std::cout << "error: incorrect date or month" << std::endl;
         return;
     }
