@@ -7,7 +7,7 @@
 class CalendarPuzzel
 {
 public:
-    void print_one_solution(int date, int month);
+    void print_one_solution();
 
 private:
     FormStrRepresent str_repr_table = {

@@ -1,19 +1,19 @@
 #include "game_table.h"
 #include <iostream>
 
+#define DEBUG 1
+
 GameTable::GameTable(FormStrRepresent str_repr_table, const std::map<char, FormStrRepresent> &str_repr_shapes)
-    : table(str_repr_table)
+    : table(str_repr_table), dates(std::vector<std::vector<int>>(31, std::vector<int>(12, 0)))
 {
     create_all_shapes(str_repr_shapes);
-    solution_has_found = insert_shapes_starting_from_index(0);
+    insert_shapes_starting_from_index(0);
 }
 
 void GameTable::create_all_shapes(const std::map<char, FormStrRepresent> &str_repr_shapes)
 {
     for (auto &[name, elem] : str_repr_shapes)
     {
-        shapes_names.push_back(name);
-
         Shape shape(elem);
 
         Shape rot90_shape(shape);
@@ -26,7 +26,7 @@ void GameTable::create_all_shapes(const std::map<char, FormStrRepresent> &str_re
 
         Shape flipped_shape(shape);
         flipped_shape.rotate(0, true);
-        bool flipped_coincid = (flipped_shape == shape);
+        bool flipped_coincid = (flipped_shape == shape || name == 'V');
 
         int rotate_count;
         if (rot90_coincid)
@@ -60,18 +60,43 @@ void GameTable::create_all_shapes(const std::map<char, FormStrRepresent> &str_re
 
 bool GameTable::insert_shapes_starting_from_index(int index)
 {
-    if (index == shapes_names.size())
+    if (index == shapes_names.size()) {
+        int date = -1, month = -1;
+
+        for (int i = 0; i < 2; ++i) {
+            for (int j = 0; j < 6; ++j) {
+                if (table.get_cell(i, j) == CellularForm::CellState::NotIncluded) {
+                    month = i * 6 + j;
+                }
+            }
+        }
+        for (int i = 0; i < 5; ++i) {
+            for (int j = 0; j < (i == 4 ? 3 : 7); ++j) {
+                if (table.get_cell(i + 2, j) == CellularForm::CellState::NotIncluded) {
+                    date = i * 7 + j;
+                }
+            }
+        }
+        if (date != -1 && month != -1) {
+            ++dates[date][month];
+        }
         return true;
+    }
 
     auto [n, m] = table.size();
     char name = shapes_names[index];
 
     for (int shape_num = 0; shape_num < shapes[name].size(); ++shape_num)
     {
+        if (index == 1) {
+            std::cout << name << " num: " << shape_num << std::endl;
+        }
+
         auto &shape = shapes[name][shape_num];
-        for (int row = 0; row < n; ++row)
+        auto [shape_n, shape_m] = shape.size();
+        for (int row = 0; row <= n - shape_n; ++row)
         {
-            for (int column = 0; column < m; ++column)
+            for (int column = 0; column <= m - shape_m; ++column)
             {
 #ifdef DEBUG
                 if (index == 0)
@@ -85,14 +110,7 @@ bool GameTable::insert_shapes_starting_from_index(int index)
                     shapes_answer_coordinate.emplace_back(std::make_pair(row, column), name, shape_num); // insert shape
                     table.fill(row, column, shape);
 
-                    // solution_has_found = true;
-                    // print_solition();
-                    // std::cout << std::endl;
-
-                    if (insert_shapes_starting_from_index(index + 1))
-                    {
-                        return true;
-                    }
+                    insert_shapes_starting_from_index(index + 1);
 
                     shapes_answer_coordinate.pop_back(); // delete shape
                     table.release(row, column, shape);
@@ -105,39 +123,9 @@ bool GameTable::insert_shapes_starting_from_index(int index)
 
 void GameTable::print_solition()
 {
-    if (!solution_has_found)
-    {
-        std::cout << "solution has not found." << std::endl;
-        return;
-    }
-
-    auto [table_n, table_m] = table.size();
-    std::vector<std::vector<char>> output_table(table_n, std::vector<char>(table_m, '.'));
-
-    for (auto [bound, shape_name, shape_num] : shapes_answer_coordinate)
-    {
-        auto [upper_bound, left_bound] = bound;
-        auto &shape = shapes[shape_name][shape_num];
-        auto [shape_n, shape_m] = shape.size();
-
-        for (int row = 0; row < shape_n; ++row)
-        {
-            for (int column = 0; column < shape_m; ++column)
-            {
-                if (shape.get_cell(row, column) == CellularForm::CellState::Included)
-                {
-                    output_table[upper_bound + row][left_bound + column] = shape_name;
-                }
-            }
+    for (int i = 0; i < 12; ++i) {
+        for (int j = 0; j < 31; ++j) {
+            std::cout << "date month: " << j + 1 << " " << i + 1 << " : " << dates[j][i] << std::endl; 
         }
-    }
-
-    for (int row = 0; row < table_n; ++row)
-    {
-        for (int column = 0; column < table_m; ++column)
-        {
-            std::cout << output_table[row][column] << " ";
-        }
-        std::cout << std::endl;
     }
 }

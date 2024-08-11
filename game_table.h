@@ -15,8 +15,9 @@ private:
 
         Table table;
         std::map<char, std::vector<Shape>> shapes;
-        std::vector<char> shapes_names;
+        std::vector<char> shapes_names = {'O', 'U', 'Z', 'V', 'L', 'N', 'Y', 'P'};
 
-        bool solution_has_found;
+        std::vector<std::vector<int>> dates;
+
         std::vector<std::tuple<std::pair<int, int>, char, int>> shapes_answer_coordinate;
 };
