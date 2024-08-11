@@ -85,10 +85,6 @@ bool GameTable::insert_shapes_starting_from_index(int index)
                     shapes_answer_coordinate.emplace_back(std::make_pair(row, column), name, shape_num); // insert shape
                     table.fill(row, column, shape);
 
-                    // solution_has_found = true;
-                    // print_solition();
-                    // std::cout << std::endl;
-
                     if (insert_shapes_starting_from_index(index + 1))
                     {
                         return true;
